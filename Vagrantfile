@@ -128,11 +128,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.run_list = %w[
       recipe[localedef]
       recipe[apache]
-#      recipe[apache::phpms]
+      recipe[apache::phpms]
       recipe[php]
       recipe[mysql]
       recipe[remi]
-#      recipe[php::php-mysqlnd]
+      recipe[php::php-mysqlnd]
     ]
   end
 

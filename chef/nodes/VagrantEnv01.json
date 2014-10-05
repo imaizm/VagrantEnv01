@@ -1,0 +1,8 @@
+{
+  "run_list": [
+    "yumsetup"
+  ],
+  "automatic": {
+    "ipaddress": "VagrantEnv01"
+  }
+}
