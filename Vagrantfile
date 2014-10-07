@@ -133,6 +133,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[mysql]
       recipe[remi]
       recipe[php::php-mysqlnd]
+      recipe[ruby]
     ]
   end
 
