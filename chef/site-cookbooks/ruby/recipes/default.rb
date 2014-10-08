@@ -55,3 +55,17 @@ execute "rbenv global" do
 	command "source /etc/profile.d/rbenv.sh; rbenv global #{node.build}"
 	action :run
 end
+
+execute "gem update --system" do
+	command "gem update --system"
+	action :run
+end
+
+gem_package "bundler" do
+	options "--no-ri --no-rdoc"
+end
+
+gem_package "rails" do
+	options "--no-ri --no-rdoc"
+end
+
