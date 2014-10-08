@@ -22,9 +22,8 @@ end
 
 bash "install_ruby_build" do
 	cwd "/usr/local/ruby-build"
-	code <<-EOH
-./install.sh
-	EOH
+	code "./install.sh"
+	action :run
 end
 
 template "rbenv.sh" do
@@ -41,23 +40,18 @@ end
 	end
 end
 
-execute "rbenv install 2.0.0-p195" do
-	command "rbenv install 2.0.0-p195"
+execute "rbenv install" do
+	command "source /etc/profile.d/rbenv.sh; rbenv install #{node.build}"
 	action :run
-	not_if { ::File.exists?("/root/.rbenv/versions/2.0.0-p195") }
-end
-
-execute "rbenv global 2.0.0-p195" do
-	command "rbenv global 2.0.0-p195"
-	action :run
-end
-
-execute "rbenv global 2.0.0-p195" do
-	command "rbenv global 2.0.0-p195"
-	action :run
+	not_if { ::File.exists?("/usr/local/rbenv/versions/#{node.build}") }
 end
 
 execute "rbenv rehash" do
-	command "rbenv rehash"
+	command "source /etc/profile.d/rbenv.sh; rbenv rehash"
+	action :run
+end
+
+execute "rbenv global" do
+	command "source /etc/profile.d/rbenv.sh; rbenv global #{node.build}"
 	action :run
 end
