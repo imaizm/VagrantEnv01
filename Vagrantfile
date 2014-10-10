@@ -120,6 +120,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   chef.validation_client_name = "ORGNAME-validator"
 
   config.vm.network :forwarded_port, guest: 80, host: 8082
+  config.vm.network :forwarded_port, guest: 3000, host: 3000
 
   config.vm.synced_folder "./src", "/var/www/src", :create => true, :owner => 'vagrant', :group => 'vagrant', :mount_options => ['dmode=777', 'fmode=666']
 
@@ -127,19 +128,38 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.cookbooks_path = "chef/site-cookbooks/"
     chef.run_list = %w[
       recipe[localedef]
-      recipe[apache]
-      recipe[mysql]
       recipe[ruby]
+      recipe[rails-app-fulcrum]
     ]
   end
 
 =begin
+## full ###############################
+      recipe[localedef]
+      recipe[apache]
+      recipe[ruby]
+      recipe[mysql]
       recipe[apache::phpms]
       recipe[php]
       recipe[remi]
       recipe[php::php-mysqlnd]
+      recipe[rails-app-fulcrum]
+## fulcrum ############################
+      recipe[localedef]
+      recipe[ruby]
+      recipe[rails-app-fulcrum]
+## tutrial/phpms ######################
+      recipe[localedef]
+      recipe[apache]
+      recipe[mysql]
+      recipe[apache::phpms]
+      recipe[php]
+      recipe[remi]
+      recipe[php::php-mysqlnd]
+#######################################
 =end
 
   config.omnibus.chef_version = :latest
 
+  config.ssh.forward_x11 = true
 end
