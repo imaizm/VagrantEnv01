@@ -46,13 +46,13 @@ execute "rbenv install" do
 	not_if { ::File.exists?("/usr/local/rbenv/versions/#{node.build}") }
 end
 
-execute "rbenv rehash" do
-	command "source /etc/profile.d/rbenv.sh; rbenv rehash"
+execute "rbenv global" do
+	command "source /etc/profile.d/rbenv.sh; rbenv global #{node.build}"
 	action :run
 end
 
-execute "rbenv global" do
-	command "source /etc/profile.d/rbenv.sh; rbenv global #{node.build}"
+execute "rbenv rehash" do
+	command "source /etc/profile.d/rbenv.sh; rbenv rehash"
 	action :run
 end
 
@@ -61,11 +61,37 @@ execute "gem update --system" do
 	action :run
 end
 
+execute "rbenv exec gem install bundler" do
+	command "source /etc/profile.d/rbenv.sh; rbenv exec gem install --no-ri --no-rdoc bundler"
+	action :run
+end
+
+=begin
+# gem_package version
 gem_package "bundler" do
 	options "--no-ri --no-rdoc"
 end
+=end
 
+execute "rbenv rehash" do
+	command "source /etc/profile.d/rbenv.sh; rbenv rehash"
+	action :run
+end
+
+execute "rbenv exec gem install rails" do
+	command "source /etc/profile.d/rbenv.sh; rbenv exec gem install --no-ri --no-rdoc rails"
+	action :run
+end
+
+=begin
+# gem_package version
 gem_package "rails" do
 	options "--no-ri --no-rdoc"
+end
+=end
+
+execute "rbenv rehash" do
+	command "source /etc/profile.d/rbenv.sh; rbenv rehash"
+	action :run
 end
 
