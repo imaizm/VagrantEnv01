@@ -119,8 +119,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   #   chef.validation_client_name = "ORGNAME-validator"
 
-  config.vm.network :forwarded_port, guest: 80, host: 8082
-  config.vm.network :forwarded_port, guest: 3000, host: 3000
+  config.vm.network :forwarded_port, guest: 80, host: 8082 # http
+  config.vm.network :forwarded_port, guest: 3000, host: 3000 # rails
+  config.vm.network :forwarded_port, guest: 3690, host: 3690 # subversion
 
   config.vm.synced_folder "./src", "/var/www/src", :create => true, :owner => 'vagrant', :group => 'vagrant', :mount_options => ['dmode=777', 'fmode=666']
 
@@ -128,8 +129,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.cookbooks_path = "chef/site-cookbooks/"
     chef.run_list = %w[
       recipe[localedef]
-      recipe[ruby]
-      recipe[rails-app-fulcrum]
+      recipe[subversion]
+      recipe[subversion-sample]
     ]
   end
 
@@ -144,6 +145,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[remi]
       recipe[php::php-mysqlnd]
       recipe[rails-app-fulcrum]
+      recipe[subversion]
 ## fulcrum ############################
       recipe[localedef]
       recipe[ruby]
