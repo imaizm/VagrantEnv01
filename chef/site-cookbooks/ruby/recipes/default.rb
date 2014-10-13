@@ -8,7 +8,10 @@ git "/usr/local/rbenv" do
 	action :sync
 end
 
-%w{/usr/local/rbenv/shims /usr/local/rbenv/versions}.each do |dir|
+%w[
+	/usr/local/rbenv/shims
+	/usr/local/rbenv/versions
+].each do |dir|
 	directory dir do
 		action :create
 	end
