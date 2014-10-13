@@ -131,6 +131,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[localedef]
       recipe[subversion]
       recipe[subversion-sample]
+      recipe[subversion-Submin]
     ]
   end
 
@@ -146,6 +147,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[php::php-mysqlnd]
       recipe[rails-app-fulcrum]
       recipe[subversion]
+      recipe[subversion-sample]
+      recipe[subversion-Submin]
 ## fulcrum ############################
       recipe[localedef]
       recipe[ruby]
