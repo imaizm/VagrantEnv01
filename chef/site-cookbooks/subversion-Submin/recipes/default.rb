@@ -18,10 +18,10 @@ execute "check" do
 	not_if { File.exists?("/usr/local/bin/submin-admin") }
 	command "echo 'not installed'"
 	action :run
-	notifies :create, resources(:remote_file => "/tmp/submin-#{node.build}.tar.gz") :immediately
-	notifies :create, resources(:execute => "tar xf") :immediately
-	notifies :create, resources(:execute => "install") :immediately
-	notifies :create, resources(:execute => "init") :immediately
+	notifies :create, "remote_file[/tmp/submin-#{node.build}.tar.gz]", :immediately
+	notifies :run, "execute[tar xf]", :immediately
+	notifies :run, "execute[install]", :immediately
+	notifies :run, "execute[init]", :immediately
 end
 
 
