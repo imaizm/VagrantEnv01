@@ -37,7 +37,19 @@ template "rbenv.sh" do
 	source "rbenv.sh.erb"
 end
 
-%w{make gcc zlib-devel openssl-devel readline-devel ncurses-devel gdbm-devel db4-devel libffi-devel tk-devel libyaml-devel}.each do |pkg|
+%w[
+	make
+	gcc
+	zlib-devel
+	openssl-devel
+	readline-devel
+	ncurses-devel
+	gdbm-devel
+	db4-devel
+	libffi-devel
+	tk-devel
+	libyaml-devel
+].each do |pkg|
 	yum_package pkg do
 		action :install
 	end
@@ -59,13 +71,23 @@ execute "rbenv rehash" do
 	action :run
 end
 
-execute "gem update --system" do
-	command "gem update --system"
+execute "rbenv exec gem install rubygems-update" do
+	command "source /etc/profile.d/rbenv.sh; rbenv exec gem install --no-ri --no-rdoc rubygems-update"
 	action :run
 end
 
 execute "rbenv exec gem install bundler" do
 	command "source /etc/profile.d/rbenv.sh; rbenv exec gem install --no-ri --no-rdoc bundler"
+	action :run
+end
+
+execute "rbenv exec gem install rails" do
+	command "source /etc/profile.d/rbenv.sh; rbenv exec gem install --no-ri --no-rdoc rails"
+	action :run
+end
+
+execute "rbenv rehash" do
+	command "source /etc/profile.d/rbenv.sh; rbenv rehash"
 	action :run
 end
 
@@ -75,26 +97,3 @@ gem_package "bundler" do
 	options "--no-ri --no-rdoc"
 end
 =end
-
-execute "rbenv rehash" do
-	command "source /etc/profile.d/rbenv.sh; rbenv rehash"
-	action :run
-end
-
-execute "rbenv exec gem install rails" do
-	command "source /etc/profile.d/rbenv.sh; rbenv exec gem install --no-ri --no-rdoc rails"
-	action :run
-end
-
-=begin
-# gem_package version
-gem_package "rails" do
-	options "--no-ri --no-rdoc"
-end
-=end
-
-execute "rbenv rehash" do
-	command "source /etc/profile.d/rbenv.sh; rbenv rehash"
-	action :run
-end
-
