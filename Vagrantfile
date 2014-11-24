@@ -129,9 +129,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.cookbooks_path = "chef/site-cookbooks/"
     chef.run_list = %w[
       recipe[localedef]
-      recipe[subversion]
-      recipe[subversion-sample]
-      recipe[subversion-Submin]
+      recipe[apache]
+      recipe[mysql::mysql-latest]
+      recipe[php]
+      recipe[php::php-mysql]
+      recipe[php-app-phabricator]
     ]
   end
 
@@ -141,18 +143,28 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[apache]
       recipe[ruby]
       recipe[mysql]
+      recipe[mysql::mysql-latest]
       recipe[apache::phpms]
       recipe[php]
       recipe[remi]
+      recipe[php::php-mysql]
       recipe[php::php-mysqlnd]
       recipe[rails-app-fulcrum]
       recipe[subversion]
       recipe[subversion-sample]
       recipe[subversion-Submin]
+      recipe[php-app-phabricator]
 ## fulcrum ############################
       recipe[localedef]
       recipe[ruby]
       recipe[rails-app-fulcrum]
+## phabricator ########################
+      recipe[localedef]
+      recipe[apache]
+      recipe[mysql::mysql-latest]
+      recipe[php]
+      recipe[php::php-mysql]
+      recipe[php-app-phabricator]
 ## tutrial/phpms ######################
       recipe[localedef]
       recipe[apache]

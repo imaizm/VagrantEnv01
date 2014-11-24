@@ -1,5 +1,6 @@
 %w[
 	mysql-server
+	mysql-devel
 ].each do |pkg|
 	package "#{pkg}" do
 		action :install
