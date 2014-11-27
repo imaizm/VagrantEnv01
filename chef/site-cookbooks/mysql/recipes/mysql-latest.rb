@@ -14,6 +14,7 @@ yum_package "mysql-community-server" do
   flush_cache [:before]
 end
 
+=begin
 %w[
 	mysql-devel
 ].each do |pkg|
@@ -21,6 +22,7 @@ end
 		action :install
 	end
 end
+=end
 
 service "mysqld" do
 	supports :status => true, :restart => true, :reload => true
