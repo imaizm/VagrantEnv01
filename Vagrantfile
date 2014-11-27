@@ -119,7 +119,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   #   chef.validation_client_name = "ORGNAME-validator"
 
-  config.vm.network :forwarded_port, guest: 80, host: 8082 # http
+  config.vm.network :forwarded_port, guest: 80, host: 10080 # http
+  config.vm.network :forwarded_port, guest: 8082, host: 18082 # http
   config.vm.network :forwarded_port, guest: 3000, host: 3000 # rails
   config.vm.network :forwarded_port, guest: 3690, host: 3690 # subversion
 
