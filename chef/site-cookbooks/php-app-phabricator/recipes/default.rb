@@ -62,7 +62,18 @@ template "myconfig.conf.php" do
 	})
 end
 
+template "httpd_phabricator.conf" do
+	path "/etc/httpd/conf.d/httpd_phabricator.conf"
+	owner "root"
+	group "root"
+	mode "0644"
+	source "httpd_phabricator.conf.erb"
+	notifies :restart, "service[httpd]", :immediately
+end
 
+service 'httpd' do
+	action :nothing
+end
 
 
 # MEMO ########################################################################
