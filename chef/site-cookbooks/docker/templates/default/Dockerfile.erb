@@ -1,0 +1,7 @@
+FROM <%= @image %>
+
+ENV CHEFHOME /chef-repo
+ADD /vagrant/chef /chef-repo
+
+RUN curl -L http://www.opscode.com/chef/install.sh | bash
+RUN cd ${CHEFHOME} && chef-solo -c ${CHEFHOME}/.chef/docker-solo.rb -j ${CHEFHOME}/nodes/docker-init.json
