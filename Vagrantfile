@@ -123,6 +123,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #    vb.gui = true
 #  end
 
+  config.vm.network :private_network, ip:"192.168.33.10"
+  config.vm.hostname = "localhost"
+
   config.vm.network :forwarded_port, guest: 80, host: 10080 # http
   config.vm.network :forwarded_port, guest: 8082, host: 18082 # http
   config.vm.network :forwarded_port, guest: 3000, host: 3000 # rails
