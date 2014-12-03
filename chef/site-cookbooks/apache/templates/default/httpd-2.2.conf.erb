@@ -27,7 +27,7 @@ MaxRequestsPerChild  4000
 StartServers         4
 MaxClients         300
 MinSpareThreads     25
-MaxSpareThreads     75 
+MaxSpareThreads     75
 ThreadsPerChild     25
 MaxRequestsPerChild  0
 </IfModule>
@@ -399,14 +399,6 @@ BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
 NameVirtualHost *:80
 
 <VirtualHost *:80>
-    ServerName localhost
-    DocumentRoot /var/www/html
-</VirtualHost>
-
-Listen 8082
-NameVirtualHost *:8082
-
-<VirtualHost *:8082>
     ServerName localhost
     DocumentRoot /var/www/html
 </VirtualHost>
