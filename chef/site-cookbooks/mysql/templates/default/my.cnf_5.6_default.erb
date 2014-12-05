@@ -1,0 +1,16 @@
+[mysqld]
+
+innodb_buffer_pool_size=<%= @innodb_buffer_pool_size %>
+
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+
+symbolic-links=0
+
+sql_mode=STRICT_ALL_TABLES
+
+ft_min_word_len=3
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

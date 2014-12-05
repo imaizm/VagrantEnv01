@@ -7,7 +7,7 @@ rpm_package "mysql-community-release" do
 	source "#{Chef::Config[:file_cache_path]}/mysql-community-release-el6-5.noarch.rpm"
 	action :install
 end
- 
+
 # install mysql community server
 yum_package "mysql-community-server" do
   action :install
@@ -23,6 +23,17 @@ end
 	end
 end
 =end
+
+template "my.cnf" do
+	path "/etc/my.cnf"
+	owner "root"
+	group "root"
+	mode "0644"
+	source "my.cnf_5.6_default.erb"
+	variables(
+		:innodb_buffer_pool_size=>node['innodb_buffer_pool_size']
+	)
+end
 
 service "mysqld" do
 	supports :status => true, :restart => true, :reload => true
