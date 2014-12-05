@@ -28,6 +28,17 @@ directory "/var/www/html/phabricator/phabricator/conf/custom" do
 	action :create
 end
 
+# PHP Settings
+%w[
+	php-pear
+	php-pecl-apc
+	php-gd
+].each do |pkg|
+	package "#{pkg}" do
+		action :install
+	end
+end
+
 # MySQL Settings
 
 user_name = 'PhabricatorAdmin'
