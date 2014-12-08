@@ -61,6 +61,8 @@ execute 'create_user' do
   not_if "/usr/bin/mysql -u #{user_name} -p#{user_password}"
 end
 
+# Phabricator Settings
+
 template "myconfig.conf.php" do
 	path "/var/www/html/phabricator/phabricator/conf/custom/myconfig.conf.php"
 	owner "root"
@@ -71,7 +73,17 @@ template "myconfig.conf.php" do
 		:mysql_username => user_name,
 		:mysql_password => user_password,
 	})
+	notifies :run, "bash[Upgrade Phabricator storage]", :immediately
 end
+
+bash "Upgrade Phabricator storage" do
+	cwd "/var/www/html/phabricator/phabricator/"
+	code "./bin/storage upgrade --force"
+#	action :run
+	action :nothing
+end
+
+# apache Settings
 
 template "httpd_phabricator.conf" do
 	path "/etc/httpd/conf.d/httpd_phabricator.conf"
