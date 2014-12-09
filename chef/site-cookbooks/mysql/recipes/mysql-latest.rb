@@ -24,6 +24,11 @@ end
 end
 =end
 
+service "mysqld" do
+	supports :status => true, :restart => true, :reload => true
+	action [ :enable, :start ]
+end
+
 template "my.cnf" do
 	path "/etc/my.cnf"
 	owner "root"
@@ -33,10 +38,5 @@ template "my.cnf" do
 	variables(
 		:innodb_buffer_pool_size=>node['innodb_buffer_pool_size']
 	)
+	notifies :restart, "service[mysqld]", :immediately
 end
-
-service "mysqld" do
-	supports :status => true, :restart => true, :reload => true
-	action [ :enable, :start ]
-end
-
