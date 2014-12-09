@@ -1,1 +1,2 @@
 /.vagrant/
+chef/site-cookbooks/ssmtp/attributes/default.rb

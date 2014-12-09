@@ -1,14 +1,11 @@
 <?php
 return array(
 
-	// Important! This will put Phabricator into setup mode to help you
-	// configure things.
-
-	'phabricator.setup' => true,
-
 	// This will be the base domain for your install, and must be configured.
 	// Use "https://" if you have SSL. See below for some notes.
 	'phabricator.base-uri' => 'http://vagrant.local:8082',
+
+	'phabricator.timezone' => 'Asia/Tokyo',
 
 	// Connection information for MySQL.
 	'mysql.host' => 'localhost',
@@ -18,11 +15,11 @@ return array(
 	// Basic email domain configuration.
 	'metamta.default-address' => 'phabadmin@example.com',
 	'metamta.domain'          => 'example.com',
-#	'metamta.mail-adapter'    => 'PhabricatorMailImplementationPHPMailerAdapter',
-	'metamta.mail-adapter'    => 'PhabricatorMailImplementationTestAdapter',
+	'metamta.mail-adapter'    => 'PhabricatorMailImplementationPHPMailerAdapter',
+#	'metamta.mail-adapter'    => 'PhabricatorMailImplementationTestAdapter',
 	'phpmailer.mailer'        => 'smtp',
-	'phpmailer.smtp-host'     => 'smtp.example.com',
-	'phpmailer.smtp-port'     => '465',
+	'phpmailer.smtp-host'     => 'localhost',
+	'phpmailer.smtp-port'     => 587,
 	'phpmailer.smtp-user'     => 'phabadmin@example.com',
 	'phpmailer.smtp-password' => 'your email password'
 

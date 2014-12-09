@@ -73,7 +73,8 @@ template "myconfig.conf.php" do
 		:mysql_username => user_name,
 		:mysql_password => user_password,
 	})
-	notifies :run, "bash[Upgrade Phabricator storage]", :immediately
+#	notifies :run, "bash[Upgrade Phabricator storage]", :immediately
+	notifies :restart, "service[httpd]", :immediately
 end
 
 bash "Upgrade Phabricator storage" do
