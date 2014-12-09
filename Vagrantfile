@@ -139,6 +139,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[localedef]
       recipe[apache]
       recipe[mysql::mysql-latest]
+      recipe[postfix]
       recipe[php]
       recipe[php::php-mysql]
       recipe[php-app-phabricator]
@@ -163,6 +164,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[subversion-sample]
       recipe[subversion-Submin]
       recipe[php-app-phabricator]
+      recipe[postfix]
 ## docker #############################
       recipe[localedef]
       recipe[docker]
@@ -174,6 +176,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[localedef]
       recipe[apache]
       recipe[mysql::mysql-latest]
+      recipe[postfix]
       recipe[php]
       recipe[php::php-mysql]
       recipe[php-app-phabricator]
