@@ -15,5 +15,5 @@ end
 
 template "/etc/httpd/conf/httpd.conf" do
 	source "httpd-2.2.conf.erb"
+	notifies :restart, "service[httpd]", :immediately
 end
-
