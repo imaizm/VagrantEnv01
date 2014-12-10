@@ -10,12 +10,14 @@ git "/var/www/html/phabricator/libphutil" do
 	repository "git://github.com/phacility/libphutil.git"
 	reference "master"
 	action :sync
+	timeout 1200
 end
 
 git "/var/www/html/phabricator/arcanist" do
 	repository "git://github.com/phacility/arcanist.git"
 	reference "master"
 	action :sync
+	timeout 1200
 end
 
 git "/var/www/html/phabricator/phabricator" do
@@ -34,6 +36,7 @@ end
 	php-pear
 	php-pecl-apc
 	php-gd
+	php-posix
 ].each do |pkg|
 	package "#{pkg}" do
 		action :install
@@ -58,9 +61,9 @@ template "#{Chef::Config[:file_cache_path]}/mysql_create_user.sql" do
 end
 
 execute 'create_user' do
-  command "/usr/bin/mysql -u root < #{Chef::Config[:file_cache_path]}/mysql_create_user.sql"
-  action :run
-  not_if "/usr/bin/mysql -u #{mysql_user} -p#{mysql_user_password}"
+	command "/usr/bin/mysql -u root < #{Chef::Config[:file_cache_path]}/mysql_create_user.sql"
+	action :run
+	not_if "/usr/bin/mysql -u #{mysql_user} -p#{mysql_user_password}"
 end
 
 # Phabricator Settings
@@ -83,8 +86,8 @@ end
 bash "Upgrade Phabricator storage" do
 	cwd "/var/www/html/phabricator/phabricator/"
 	code "./bin/storage upgrade --force"
-#	action :run
-	action :nothing
+	action :run
+	not_if "/usr/bin/mysql -u #{mysql_user} -p#{mysql_user_password} -D phabricator_config"
 end
 
 # apache Settings
@@ -102,6 +105,11 @@ service 'httpd' do
 	action :nothing
 end
 
+bash "Restart Phabricator Daemon" do
+	cwd "/var/www/html/phabricator/phabricator/"
+	code "export PHABRICATOR_ENV=custom/myconfig; ./bin/phd restart"
+	action :run
+end
 
 # MEMO ########################################################################
 =begin
