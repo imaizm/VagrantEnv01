@@ -36,7 +36,7 @@ template "my.cnf" do
 	mode "0644"
 	source "my.cnf_5.6_default.erb"
 	variables(
-		:innodb_buffer_pool_size=>node['innodb_buffer_pool_size']
+		:innodb_buffer_pool_size => node['innodb_buffer_pool_size']
 	)
 	notifies :restart, "service[mysqld]", :immediately
 end
