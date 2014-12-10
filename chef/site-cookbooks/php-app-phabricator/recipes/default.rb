@@ -22,6 +22,7 @@ git "/var/www/html/phabricator/phabricator" do
 	repository "git://github.com/phacility/phabricator.git"
 	reference "master"
 	action :sync
+	timeout 1200
 end
 
 directory "/var/www/html/phabricator/phabricator/conf/custom" do
@@ -41,8 +42,9 @@ end
 
 # MySQL Settings
 
-user_name = 'PhabricatorAdmin'
-user_password = 'PhabricatorAdminPass'
+mysql_user          = node['mysql_user']
+mysql_user_password = node['mysql_user_password']
+repository_path     = node['repository_path']
 
 template "#{Chef::Config[:file_cache_path]}/mysql_create_user.sql" do
 	owner 'root'
@@ -50,15 +52,15 @@ template "#{Chef::Config[:file_cache_path]}/mysql_create_user.sql" do
 	mode 644
 	source 'mysql_create_user.sql.erb'
 	variables({
-		:username => user_name,
-		:password => user_password,
+		:mysql_user          => mysql_user,
+		:mysql_user_password => mysql_user_password
 	})
 end
 
 execute 'create_user' do
   command "/usr/bin/mysql -u root < #{Chef::Config[:file_cache_path]}/mysql_create_user.sql"
   action :run
-  not_if "/usr/bin/mysql -u #{user_name} -p#{user_password}"
+  not_if "/usr/bin/mysql -u #{mysql_user} -p#{mysql_user_password}"
 end
 
 # Phabricator Settings
@@ -70,8 +72,9 @@ template "myconfig.conf.php" do
 	mode "0644"
 	source "myconfig.conf.php.erb"
 	variables({
-		:mysql_username => user_name,
-		:mysql_password => user_password,
+		:mysql_user          => mysql_user,
+		:mysql_user_password => mysql_user_password,
+		:repository_path     => repository_path
 	})
 #	notifies :run, "bash[Upgrade Phabricator storage]", :immediately
 	notifies :restart, "service[httpd]", :immediately

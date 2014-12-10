@@ -1,4 +1,4 @@
-GRANT ALL ON *.* TO '<%= @username %>'@'localhost' IDENTIFIED BY '<%= @password %>';
-GRANT ALL ON *.* TO '<%= @username %>'@'%' IDENTIFIED BY '<%= @password %>';
+GRANT ALL ON *.* TO '<%= @mysql_user %>'@'localhost' IDENTIFIED BY '<%= @mysql_user_password %>';
+GRANT ALL ON *.* TO '<%= @mysql_user %>'@'%' IDENTIFIED BY '<%= @mysql_user_password %>';
 
 FLUSH PRIVILEGES;

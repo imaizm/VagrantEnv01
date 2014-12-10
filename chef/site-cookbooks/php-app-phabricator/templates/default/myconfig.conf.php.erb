@@ -6,23 +6,18 @@ return array(
 	'phabricator.base-uri' => 'http://vagrant.local:8082',
 
 	'phabricator.timezone' => 'Asia/Tokyo',
+	'storage.upload-size-limit' => '100M',
+	'repository.default-local-path' => '<%= @repository_path %>',
 
 	// Connection information for MySQL.
 	'mysql.host' => 'localhost',
-	'mysql.user' => '<%= @mysql_username %>',
-	'mysql.pass' => '<%= @mysql_password %>',
+	'mysql.user' => '<%= @mysql_user %>',
+	'mysql.pass' => '<%= @mysql_user_password %>',
 
 	// Basic email domain configuration.
-	'metamta.default-address' => 'phabadmin@example.com',
-	'metamta.domain'          => 'example.com',
-	'metamta.mail-adapter'    => 'PhabricatorMailImplementationPHPMailerAdapter',
-#	'metamta.mail-adapter'    => 'PhabricatorMailImplementationTestAdapter',
-	'phpmailer.mailer'        => 'smtp',
-	'phpmailer.smtp-host'     => 'localhost',
-	'phpmailer.smtp-port'     => 587,
-	'phpmailer.smtp-user'     => 'phabadmin@example.com',
-	'phpmailer.smtp-password' => 'your email password'
-
+	'metamta.default-address' => 'phabadmin@vagrant.local',
+	'metamta.domain'          => 'vagrant.local',
+	'metamta.mail-adapter'    => 'PhabricatorMailImplementationPHPMailerLiteAdapter',
 
 	// NOTE: Check default.conf.php for detailed explanations of all the
 	// configuration options, including these.
