@@ -4,13 +4,17 @@
 #
 package "docker-io" do
 	action :install
+	notifies :enable, "service[docker]", :immediately
+	notifies :start, "service[docker]", :immediately
 end
 
 service "docker" do
 	supports :status => true, :restart => true, :reload => true
-	action [ :enable, :start ]
+#	action [ :enable, :start ]
+	action :nothing
 end
 
+=begin
 execute "docker pull" do
 	command "docker pull #{node.image}"
 	action :run
@@ -26,3 +30,4 @@ template "Dockerfile" do
 		:image=>node['image']
 	)
 end
+=end
