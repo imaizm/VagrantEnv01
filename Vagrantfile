@@ -1,6 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -133,19 +130,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	config.vm.synced_folder "./src", "/var/www/src", :create => true, :owner => 'vagrant', :group => 'vagrant', :mount_options => ['dmode=777', 'fmode=666']
 
+	if `hostname`.chop == "PJ-DEV-DESK004" then
+		config.vm.provider "virtualbox" do |vb|
+			vb.customize ["modifyvm", :id, "--memory", "4096"]
+		end
+	end
+
 	config.vm.provision "chef_solo" do |chef|
 		chef.cookbooks_path = "chef/site-cookbooks/"
 		chef.run_list = %w[
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
-			recipe[apache]
-			recipe[mysql::mysql-latest]
-			recipe[ssmtp]
-			recipe[subversion]
-			recipe[subversion-sample]
-			recipe[php]
-			recipe[php::php-mysql]
-			recipe[php-app-phabricator]
+			recipe[docker]
+			recipe[ruby]
+			recipe[docker::chef-container]
+			recipe[docker::tutorial]
 		]
 	end
 
@@ -178,6 +177,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
 			recipe[ruby]
+			recipe[ruby::rails]
 			recipe[rails-app-fulcrum]
 ## phabricator ########################
 			recipe[localedef]
