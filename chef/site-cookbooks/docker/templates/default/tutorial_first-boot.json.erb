@@ -1,0 +1,10 @@
+{
+	"run_list": [
+		"recipe[apache2]"
+	],
+	"container_service": {
+		"apache2": {
+			 "command": "/usr/sbin/apache2 -k start"
+		}
+	}
+}

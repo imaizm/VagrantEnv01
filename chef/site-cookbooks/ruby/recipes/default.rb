@@ -27,6 +27,7 @@ bash "install_ruby_build" do
 	cwd "/usr/local/ruby-build"
 	code "./install.sh"
 	action :run
+	not_if { ::File.exists?("/usr/local/share/ruby-build") }
 end
 
 template "rbenv.sh" do
@@ -74,16 +75,13 @@ end
 execute "rbenv exec gem install rubygems-update" do
 	command "source /etc/profile.d/rbenv.sh; rbenv exec gem install --no-ri --no-rdoc rubygems-update"
 	action :run
+	not_if { ::File.exists?("/usr/local/rbenv/versions/#{node.build}/bin/update_rubygems") }
 end
 
 execute "rbenv exec gem install bundler" do
 	command "source /etc/profile.d/rbenv.sh; rbenv exec gem install --no-ri --no-rdoc bundler"
 	action :run
-end
-
-execute "rbenv exec gem install rails" do
-	command "source /etc/profile.d/rbenv.sh; rbenv exec gem install --no-ri --no-rdoc rails"
-	action :run
+	not_if { ::File.exists?("/usr/local/rbenv/versions/#{node.build}/bin/bundler") }
 end
 
 execute "rbenv rehash" do
