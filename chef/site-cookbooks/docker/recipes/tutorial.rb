@@ -6,7 +6,7 @@ execute "knife container docker init" do
 	user "vagrant"
 	group "vagrant"
 	cwd "/home/vagrant"
-	command "source /etc/profile.d/rbenv.sh; knife container docker init centos:centos6 -r 'recipe[apache2]' -z -b"
+	command "source /etc/profile.d/rbenv.sh; knife container docker init test/instance1 -r 'recipe[apache2]' -z -b -f centos:centos6"
 	action :run
 	not_if { ::File.exists?("/home/vagrant/dockerfiles") }
 end
