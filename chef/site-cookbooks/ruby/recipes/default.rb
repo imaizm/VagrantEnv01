@@ -38,6 +38,14 @@ template "rbenv.sh" do
 	source "rbenv.sh.erb"
 end
 
+template "sudoers_for_ruby" do
+	path "/etc/sudoers.d/sudoers_for_ruby"
+	owner "root"
+	group "root"
+	mode "0440"
+	source "sudoers_for_ruby.erb"
+end
+
 %w[
 	make
 	gcc
