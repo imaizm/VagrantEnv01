@@ -134,6 +134,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		config.vm.provider "virtualbox" do |vb|
 			vb.customize ["modifyvm", :id, "--memory", "4096"]
 		end
+	else
+		config.vm.provider "virtualbox" do |vb|
+			vb.customize ["modifyvm", :id, "--memory", "1024"]
+		end
 	end
 
 	config.vm.provision "chef_solo" do |chef|
