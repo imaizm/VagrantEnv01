@@ -141,10 +141,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		chef.run_list = %w[
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
-			recipe[docker]
-			recipe[ruby]
-			recipe[docker::chef-container]
-			recipe[docker::tutorial]
+			recipe[apache]
+			recipe[remi]
+			recipe[php::php-with-remi]
+			recipe[php::composer]
+			recipe[php::composer-laravel]
 		]
 	end
 
@@ -173,6 +174,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
 			recipe[docker]
+			recipe[ruby]
+			recipe[docker::chef-container]
+			recipe[docker::tutorial]
 ## fulcrum ############################
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
