@@ -1,0 +1,17 @@
+Listen 8082
+NameVirtualHost *:8082
+
+<VirtualHost *:8082>
+	ServerName localhost
+	DocumentRoot <%= @laravel_install_path %>/public/
+
+	<Directory "<%= @laravel_install_path %>/public/">
+		AllowOverride all
+
+		# < apache 2.4
+		Order allow,deny
+		Allow from all
+		# >= apache 2.4
+	#	Require all granted
+	</Directory>
+</VirtualHost>
