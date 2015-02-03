@@ -3,7 +3,20 @@
 # Recipe:: default
 #
 package "subversion" do
+	action :remove
+end
+
+package "subversion" do
 	action :install
+	options '--enablerepo=wandisco-svn --disablerepo=base,updates,epel'
+end
+
+template "svnserve" do
+	path "/etc/init.d/svnserve"
+	owner "root"
+	group "root"
+	mode "0755"
+	source "init.d_svnserve_1.6.11.el6_5_original.erb"
 end
 
 service "svnserve" do
