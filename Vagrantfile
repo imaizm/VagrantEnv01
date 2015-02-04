@@ -124,6 +124,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.hostname = "localhost"
 
 	config.vm.network :forwarded_port, guest: 80, host: 10080 # http
+	config.vm.network :forwarded_port, guest: 8080, host: 18080 # http
 	config.vm.network :forwarded_port, guest: 8082, host: 18082 # http
 	config.vm.network :forwarded_port, guest: 3000, host: 3000 # rails
 	config.vm.network :forwarded_port, guest: 3690, host: 3690 # subversion
@@ -150,6 +151,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[php::php-with-remi]
 			recipe[php::composer]
 			recipe[php::composer-laravel]
+			recipe[java]
+			recipe[centos::add_yum_repository_jenkins]
+			recipe[jenkins]
 		]
 	end
 
@@ -174,6 +178,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[php-app-phabricator]
 			recipe[postfix]
 			recipe[ssmtp]
+			recipe[java]
+## jenkins ############################
+			recipe[localedef]
+			recipe[security-updates::bash-shellshock]
+			recipe[java]
+			recipe[centos::add_yum_repository_jenkins]
+			recipe[jenkins]
 ## docker #############################
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
