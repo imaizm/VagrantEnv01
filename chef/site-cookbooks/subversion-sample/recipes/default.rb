@@ -6,6 +6,7 @@ directory "/var/svn/repos/Sample" do
 	action :create
 end
 
+# svn://localhost:3690/var/svn/repos/Sample
 execute "svnadmin create" do
 	command <<-EOS
 		svnadmin create /var/svn/repos/Sample
