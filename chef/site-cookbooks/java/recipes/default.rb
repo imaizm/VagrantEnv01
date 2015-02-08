@@ -1,5 +1,5 @@
 
-package "java-" + node["openjdk"]["yum_version"] + "-openjdk-devel" do
+package "java-#{node['openjdk']['yum_version']}-openjdk-devel" do
 	action :install
 end
 
