@@ -38,6 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[security-updates::bash-shellshock]
 			recipe[java]
 			recipe[java::maven]
+			recipe[java::spring-boot_with_maven]
 			recipe[centos::add_yum_repository_jenkins]
 			recipe[jenkins]
 		]
