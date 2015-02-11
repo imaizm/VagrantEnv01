@@ -1,5 +1,6 @@
 
 directory node['spring-boot']['app_dir'] do
+	recursive true
 	action :create
 end
 
@@ -11,15 +12,16 @@ template "pom.xml" do
 	source "pom.xml_for_spring-boot.erb"
 	variables({
 		:groupId => node['spring-boot']['groupId'],
-		:artifactId => node['spring-boot']['artifactId']
+		:artifactId => node['spring-boot']['artifactId'],
+		:versionOfSpringBoot => node['spring-boot']['version']
 	})
 end
 
-=begin
-bash "create spring-boot project with maven" do
-	cwd node['spring-boot']['project_dir']
-	code "mvn archetype:create -DgroupId=com.techscore.spring_boot_sample -DartifactId=spring_boot_sample"
+bash "package spring-boot project with maven" do
+	cwd node['spring-boot']['app_dir']
+	code  <<-EOS
+		source /etc/profile
+		mvn package
+	EOS
 	action :run
-	not_if { File.exists?("/usr/local/#{node['maven']['download']['basename']}") }
 end
-=end
