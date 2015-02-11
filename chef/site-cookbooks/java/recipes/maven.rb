@@ -14,7 +14,8 @@ end
 
 bash "Create /etc/profile.d/add_MAVEN_BIN_to_PATH.sh" do
 	code  <<-EOS
-		echo "PATH=\\$PATH:/usr/local/#{node['maven']['download']['basename']}/bin" > /etc/profile.d/add_MAVEN_BIN_to_PATH.sh
+		echo "export PATH=\\$PATH:/usr/local/#{node['maven']['download']['basename']}/bin" > /etc/profile.d/add_MAVEN_BIN_to_PATH.sh
+		source /etc/profile
 	EOS
 	action :run
 	not_if { File.exists?("/etc/profile.d/add_MAVEN_BIN_to_PATH.sh") }
