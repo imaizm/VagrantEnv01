@@ -34,6 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	config.vm.provision "chef_solo" do |chef|
 		chef.cookbooks_path = "chef/site-cookbooks/"
+		chef.environment = "vagrant"
 		chef.run_list = %w[
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]

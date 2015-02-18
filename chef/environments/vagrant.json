@@ -1,0 +1,11 @@
+{
+	"name": "vagrant",
+	"description":"This is it",
+	"chef_type": "environment",
+	"json_class": "Chef::Environment",
+	"default_attributes": {
+		"contents_admin_user": "vagrant",
+		"contents_admin_group": "vagrant"
+	},
+	"override_attributes": {}
+}

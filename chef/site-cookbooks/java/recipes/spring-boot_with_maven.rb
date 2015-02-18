@@ -4,6 +4,7 @@ directory node['spring-boot']['app_dir'] do
 	action :create
 end
 
+# mvn -B archetype:generate -DgroupId=<groupId> -DartifactId=<artifactId> -Dversion=1.0.0 -DarchetypeArtifactId=maven-archetype-quickstart
 template "pom.xml" do
 	path "#{node['spring-boot']['app_dir']}/pom.xml"
 	owner "vagrant"
