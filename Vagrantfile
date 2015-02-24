@@ -34,6 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	config.vm.provision "chef_solo" do |chef|
 		chef.cookbooks_path = "chef/site-cookbooks/"
+		chef.environments_path = "chef/environments/"
 		chef.environment = "vagrant"
 		chef.run_list = %w[
 			recipe[localedef]
@@ -43,6 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[java::spring-boot_with_maven]
 			recipe[centos::add_yum_repository_jenkins]
 			recipe[jenkins]
+			recipe[git]
 		]
 	end
 
