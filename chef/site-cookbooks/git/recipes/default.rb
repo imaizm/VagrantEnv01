@@ -1,3 +1,7 @@
+package "git" do
+	action :install
+end
+
 user node['git']['install_user_name'] do
 	password node['git']['install_user_password']
 	home node['git']['install_user_home']
