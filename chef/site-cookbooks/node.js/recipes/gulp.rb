@@ -8,6 +8,6 @@ bash "gulp" do
 		nvm use v#{node.version}
 		npm install -g gulp
 	EOH
-#	action :nothing
-#	subscribes :run, "bash[nvm.sh]", :delayed
+	action :nothing
+	subscribes :run, "bash[nvm.sh]", :delayed
 end
