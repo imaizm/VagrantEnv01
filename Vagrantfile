@@ -41,6 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[security-updates::bash-shellshock]
 			recipe[node.js]
 			recipe[node.js::grunt]
+			recipe[node.js::gulp]
 		]
 	end
 
@@ -67,6 +68,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[mysql::createdb_phpms]
 			recipe[node.js]
 			recipe[node.js::grunt]
+			recipe[node.js::gulp]
 			recipe[php]
 			recipe[php::composer]
 			recipe[php::composer-laravel]
@@ -96,25 +98,31 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[java]
 			recipe[centos::add_yum_repository_jenkins]
 			recipe[jenkins]
-## capistrano #########################
+## capistrano ##################################################################
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
 			recipe[ruby]
 			recipe[capstrano]
-## docker #############################
+## docker ######################################################################
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
 			recipe[docker]
 			recipe[ruby]
 			recipe[docker::chef-container]
 			recipe[docker::tutorial]
-## fulcrum ############################
+## node.js #####################################################################
+			recipe[localedef]
+			recipe[security-updates::bash-shellshock]
+			recipe[node.js]
+			recipe[node.js::grunt]
+			recipe[node.js::gulp]
+## fulcrum #####################################################################
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
 			recipe[ruby]
 			recipe[ruby::rails]
 			recipe[rails-app-fulcrum]
-## phabricator ########################
+## phabricator #################################################################
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
 			recipe[apache]
@@ -125,7 +133,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[php]
 			recipe[php::php-mysql]
 			recipe[php-app-phabricator]
-## php/laravel ########################
+## php/laravel #################################################################
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
 			recipe[apache]
@@ -133,7 +141,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[php::php-with-remi]
 			recipe[php::composer]
 			recipe[php::composer-laravel]
-## tutrial/phpms ######################
+## tutrial/phpms ###############################################################
 			recipe[localedef]
 			recipe[security-updates::bash-shellshock]
 			recipe[apache]
@@ -142,7 +150,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[php]
 			recipe[remi]
 			recipe[php::php-mysqlnd]
-#######################################
+################################################################################
 =end
 
 	config.omnibus.chef_version = :latest
