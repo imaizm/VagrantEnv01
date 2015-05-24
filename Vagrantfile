@@ -42,6 +42,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[node.js]
 			recipe[node.js::grunt]
 			recipe[node.js::gulp]
+			recipe[node.js::sample_01]
 		]
 	end
 
