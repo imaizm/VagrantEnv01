@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: nodejs
+# Cookbook Name:: node.js
 # Recipe:: grant
 #
 bash "grunt" do

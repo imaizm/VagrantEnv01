@@ -5,7 +5,7 @@
 git "/usr/local/nvm" do
 	repository "git://github.com/creationix/nvm.git"
 	reference "master"
-	notifies :run, "bash[nvm.sh]"
+	notifies :run, "bash[nvm.sh]", :immediately
 end
 
 bash "nvm.sh" do

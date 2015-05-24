@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: nodejs
-# Recipe:: grant
+# Cookbook Name:: node.js
+# Recipe:: gulp
 #
 bash "gulp" do
 	code <<-EOH
