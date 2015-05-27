@@ -37,7 +37,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		chef.environments_path = "chef/environments/"
 		chef.environment = "vagrant"
 		chef.run_list = %w[
-			recipe[localedef]
+			recipe[linux::localedef_for_UTF-8]
+			recipe[linux::sudoers_for_path]
 			recipe[security-updates::bash-shellshock]
 			recipe[node.js]
 			recipe[node.js::grunt]
