@@ -27,7 +27,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[linux::sudoers_for_path]
 			recipe[security-updates::bash-shellshock]
 			recipe[node.js]
-			recipe[node.js::grunt]
 			recipe[node.js::express]
 		]
 	end
