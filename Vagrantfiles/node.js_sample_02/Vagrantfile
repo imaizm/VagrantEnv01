@@ -26,6 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[linux::localedef_for_UTF-8]
 			recipe[linux::sudoers_for_path]
 			recipe[security-updates::bash-shellshock]
+			recipe[mongodb::install_mongodb-org_for_centos]
 			recipe[node.js]
 			recipe[node.js::express]
 			recipe[node.js::pm2]
