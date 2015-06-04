@@ -28,6 +28,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[security-updates::bash-shellshock]
 			recipe[node.js]
 			recipe[node.js::express]
+			recipe[node.js::pm2]
+			recipe[node.js::sample_02]
 		]
 	end
 
