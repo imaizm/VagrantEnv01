@@ -9,5 +9,5 @@ bash "pm2" do
 		npm install -g pm2
 	EOH
 	action :nothing
-	subscribes :run, "bash[nvm.sh]", :delayed
+	subscribes :run, "bash[nvm.sh]", :immediately
 end

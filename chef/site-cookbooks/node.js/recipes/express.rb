@@ -9,5 +9,5 @@ bash "express" do
 		npm install -g express-generator
 	EOH
 	action :nothing
-	subscribes :run, "bash[nvm.sh]", :delayed
+	subscribes :run, "bash[nvm.sh]", :immediately
 end

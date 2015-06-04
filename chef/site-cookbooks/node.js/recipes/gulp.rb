@@ -9,5 +9,5 @@ bash "gulp" do
 		npm install -g gulp
 	EOH
 	action :nothing
-	subscribes :run, "bash[nvm.sh]", :delayed
+	subscribes :run, "bash[nvm.sh]", :immediately
 end
