@@ -25,6 +25,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+// for phots param
+app.set('photos_save_dir', __dirname + '/public/photos');
+var photos = require('./routes/photos')(app.get('photos_save_dir'));
+app.use('/photos', photos);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
