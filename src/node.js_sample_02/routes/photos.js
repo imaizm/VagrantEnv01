@@ -5,6 +5,7 @@ var Photo = require('../models/Photo');
 var path  = require('path');
 var fs    = require('fs');
 var join  = path.join;
+var formidable = require('formidable');
 
 /*
 app.get( '/',                   photos.list);
@@ -44,7 +45,7 @@ module.exports = function(dir) {
 	};
 	*/
 
-	router.get('/photos', function(req, res, next) {
+	router.get('/', function(req, res, next) {
 		Photo.find({}, function(err, photos) {
 			if (err) return next(err);
 			res.render('photos', {
@@ -62,7 +63,7 @@ module.exports = function(dir) {
 	};
 	*/
 
-	router.get('/photos/upload', function(req, res) {
+	router.get('/upload', function(req, res) {
 		res.render('photos/upload', {
 			title: 'Photo upload'
 		});
@@ -90,20 +91,24 @@ module.exports = function(dir) {
 	};
 	*/
 
-	router.post('/photos/upload', function(req, res, next) {
-		var img  = req.files.photo.image;
-		var name = req.body.photo.name || img.name;
-		var path = join(dir, img.name);
+	router.post('/upload', function(req, res, next) {
+		var form = formidable.IncomingForm();
 
-		fs.rename(img.path, path, function(err) {
-			if (err) return next(err);
+		form.parse(req, function (err, fields, files) {
+			var img  = files.photo_image;
+			var name = fields.photo_name || img.name;
+			var path = join(dir, img.name);
 
-			Photo.create({
-				name: name,
-				path: img.name
-			}, function(err) {
+			fs.rename(img.path, path, function(err) {
 				if (err) return next(err);
-				res.redirect('/photos');
+
+				Photo.create({
+					name: name,
+					path: img.name
+				}, function(err) {
+					if (err) return next(err);
+					res.redirect('/');
+				});
 			});
 		});
 	});
@@ -121,13 +126,13 @@ module.exports = function(dir) {
 	};
 	*/
 
-	router.get('/photos/:id/download', function(req, res, next) {
+	router.get('/:id/download', function(req, res, next) {
 		var id = req.params.id;
 
 		Photo.findById(id, function(err, photo) {
 			if (err) return next(err);
 			var path = join(dir, photo.path);
-			res.download(path, photo.name+'.jpeg');
+			res.download(path, photo.name+'.jpg');
 		});
 	});
 

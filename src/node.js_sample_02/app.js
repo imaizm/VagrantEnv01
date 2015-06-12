@@ -25,7 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-// for phots param
+// for photos param
+process.env.TMPDIR = __dirname + '/temp';
+
 app.set('photos_save_dir', __dirname + '/public/photos');
 var photos = require('./routes/photos')(app.get('photos_save_dir'));
 app.use('/photos', photos);
