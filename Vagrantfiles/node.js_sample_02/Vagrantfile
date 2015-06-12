@@ -30,6 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[node.js]
 			recipe[node.js::express]
 			recipe[node.js::pm2]
+			recipe[node.js::stylus_and_nib]
 			recipe[node.js::sample_02]
 		]
 	end
