@@ -1,0 +1,8 @@
+{
+	"name" : "chatrooms_with_redis",
+	"version" : "0.0.1",
+	"description" : "chatrooms_with_redis",
+	"dependencies" : {
+		"mime" : "~1.2.7"
+	}
+}

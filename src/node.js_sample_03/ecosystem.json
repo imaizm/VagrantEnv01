@@ -1,0 +1,8 @@
+{
+	apps : [
+		{
+			name      : "sample_03",
+			script    : "server.js"
+		}
+	]
+}
