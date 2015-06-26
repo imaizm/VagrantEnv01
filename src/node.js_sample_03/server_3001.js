@@ -6,6 +6,9 @@ var app = require('http').createServer(function(req, res) {
 }).listen(3001);
 
 var io = require('socket.io').listen(app);
+var redis = require('socket.io-redis');
+io.adapter(redis({ host: 'localhost', port: 6379 }));
+
 io.sockets.on('connection', function(socket) {
 	socket.on('msg', function(data) {
 		io.sockets.emit('msg', data);
