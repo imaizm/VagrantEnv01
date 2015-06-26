@@ -1,8 +1,12 @@
 {
 	apps : [
 		{
-			name      : "sample_03",
-			script    : "server.js"
+			name      : "sample_03_3001",
+			script    : "server_3001.js"
+		},
+		{
+			name      : "sample_03_3002",
+			script    : "server_3002.js"
 		}
 	]
 }
