@@ -1,0 +1,8 @@
+{
+	apps : [
+		{
+			name      : "sample_04",
+			script    : "bin/www"
+		}
+	]
+}
