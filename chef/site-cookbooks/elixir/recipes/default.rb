@@ -2,6 +2,10 @@
 # Cookbook Name:: elixir
 # Recipe:: default
 #
+package "ncurses-devel" do
+	action :install
+end
+
 remote_file "#{Chef::Config[:file_cache_path]}/otp_src_18.1.tar.gz" do
 	source "http://www.erlang.org/download/otp_src_18.1.tar.gz"
 	action :create
