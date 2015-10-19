@@ -3,8 +3,12 @@
 # Recipe:: default
 #
 %w[
+	gcc
+	glibc-devel
+	make
 	ncurses-devel
 	openssl-devel
+	autoconf
 ].each do |pkg|
 	package "#{pkg}" do
 		action :install
@@ -21,13 +25,13 @@ end
 bash 'make and install erlang' do
 	action :nothing
 	cwd "#{Chef::Config[:file_cache_path]}"
-	code <<-EOH
-tar xzf #{Chef::Config[:file_cache_path]}/otp_src_18.1.tar.gz
-cd #{Chef::Config[:file_cache_path]}/otp_src_18.1
-./configure
-make
-make install
-EOH
+	code <<-EOS
+		tar xzf #{Chef::Config[:file_cache_path]}/otp_src_18.1.tar.gz
+		cd #{Chef::Config[:file_cache_path]}/otp_src_18.1
+		./configure
+		make
+		make install
+	EOS
 end
 
 git "/usr/local/elixir" do
@@ -39,8 +43,23 @@ end
 
 bash 'make elixir' do
 	action :nothing
-	code <<-EOH
-cd /usr/local/elixir
-make clean test
-EOH
+	code <<-EOS
+		cd /usr/local/elixir
+		make clean test
+	EOS
+end
+
+template "setPATH_for_elixir.sh" do
+	path "/etc/profile.d/setPATH_for_exlixir.sh"
+	owner "root"
+	group "root"
+	mode "0644"
+	source "setPATH_for_elixir.sh.erb"
+end
+
+bash 'install Hex by mix' do
+	action :run
+	code <<-EOS
+		mix local.hex
+	EOS
 end

@@ -28,6 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[linux::sudoers_for_path]
 			recipe[security-updates::bash-shellshock]
 			recipe[elixir]
+			recipe[elixir::phoenix]
 		]
 	end
 
