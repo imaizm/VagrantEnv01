@@ -29,6 +29,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[security-updates::bash-shellshock]
 			recipe[elixir]
 			recipe[elixir::phoenix]
+			recipe[node.js]
+			recipe[postgres::latest_for_centos6]
 		]
 	end
 
