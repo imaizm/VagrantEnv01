@@ -1,0 +1,73 @@
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+	config.vm.box = "relativkreativ/centos-7-minimal"
+
+	config.vm.network :private_network, ip:"192.168.33.10"
+	config.vm.hostname = "localhost"
+
+	config.vm.network :forwarded_port, guest: 80, host: 10080 # http
+	config.vm.network :forwarded_port, guest: 8080, host: 18080 # http
+	config.vm.network :forwarded_port, guest: 3000, host: 3000 # node.js
+
+	config.vm.synced_folder "../../src", "/var/www/src", :create => true, :owner => 'vagrant', :group => 'vagrant', :mount_options => ['dmode=777', 'fmode=666']
+
+=begin
+	unless Vagrant.has_plugin?('vagrant-chef-zero')
+		system('vagrant plugin install vagrant-chef-zero') || exit!
+		exit system('vagrant', *ARGV)
+	end
+=end
+	unless Vagrant.has_plugin?('vagrant-omnibus')
+		system('vagrant plugin install vagrant-omnibus') || exit!
+		exit system('vagrant', *ARGV)
+	end
+	unless Vagrant.has_plugin?('vagrant-aws')
+		system('vagrant plugin install vagrant-aws') || exit!
+		exit system('vagrant', *ARGV)
+	end
+	unless Vagrant.has_plugin?('dotenv')
+		system('vagrant plugin install dotenv') || exit!
+		exit system('vagrant', *ARGV)
+	end
+
+	config.omnibus.chef_version = :latest
+
+	config.ssh.forward_x11 = true
+
+	config.vm.provision "chef_solo" do |chef|
+		chef.cookbooks_path = "../../chef/site-cookbooks/"
+		chef.environments_path = "../../chef/environments/"
+		chef.environment = "vagrant"
+		chef.run_list = %w[
+			recipe[linux::localedef_for_UTF-8]
+			recipe[linux::sudoers_for_path]
+			recipe[security-updates::bash-shellshock]
+			recipe[linux::install_gnome_desktop_for_centos]
+		]
+	end
+
+	# for bug of Vagrant 1.7.2
+	unless Vagrant.has_plugin?('vagrant-triggers')
+		# Attempt to install ourself.
+		# Bail out on failure so we don't get stuck in an infinite loop.
+		system('vagrant plugin install vagrant-triggers') || exit!
+
+		# Relaunch Vagrant so the new plugin(s) are detected.
+		# Exit with the same status code.
+		exit system('vagrant', *ARGV)
+	end
+
+	config.trigger.before [:reload, :up], stdout: true do
+		my_SYNCED_FOLDER = ".vagrant/machines/default/virtualbox/synced_folders"
+		info "Trying to delete folder #{my_SYNCED_FOLDER}"
+		begin
+			File.delete(my_SYNCED_FOLDER)
+		rescue StandardError => e
+			warn "Could not delete folder #{my_SYNCED_FOLDER}."
+			warn e.inspect
+		end
+	end
+end
