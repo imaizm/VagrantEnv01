@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	config.vm.network :forwarded_port, guest: 80, host: 10080 # http
 	config.vm.network :forwarded_port, guest: 8080, host: 18080 # http
-	config.vm.network :forwarded_port, guest: 3000, host: 3000 # node.js
+	config.vm.network :forwarded_port, guest: 5901, host: 15901 # vnc
 
 	config.vm.synced_folder "../../src", "/var/www/src", :create => true, :owner => 'vagrant', :group => 'vagrant', :mount_options => ['dmode=777', 'fmode=666']
 
