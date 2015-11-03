@@ -47,3 +47,18 @@ bash 'reload tigervnc-server' do
 	EOS
 	action :nothing
 end
+
+execute "set vncpasswd" do
+	user "vagrant"
+	group "vagrant"
+	cwd "/home/vagrant"
+	command "echo vagrant | vncpasswd"
+	action :run
+end
+
+bash 'start tigervnc-server' do
+	code <<-EOS
+		systemctl start vncserver@:1.service
+	EOS
+	action :nothing
+end
