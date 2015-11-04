@@ -16,7 +16,7 @@ end
 
 # yum install -y epel-release
 # yum --enablerepo=epel groupinstall -y "MATE Desktop"
-# yum --enablerepo=epel groupinstall -y "Xfce#
+# yum --enablerepo=epel groupinstall -y "Xfce"
 
 # .Xclients
 # echo "startxfce4" > ~/.Xclients
