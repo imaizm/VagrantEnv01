@@ -26,6 +26,15 @@ end
 
 package "tigervnc-server" do
 	action :install
+	notifies :run, "bash[add vnc-server to firewalld]", :immediately
+end
+
+bash 'add vnc-server to firewalld' do
+	code <<-EOS
+		firewall-cmd --permanent --add-service vnc-server
+		systemctl restart firewalld.service
+	EOS
+	action :nothing
 end
 
 template "vncserver@:1.service" do
