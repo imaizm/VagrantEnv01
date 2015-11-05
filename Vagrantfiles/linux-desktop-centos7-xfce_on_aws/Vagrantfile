@@ -1,0 +1,72 @@
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+	config.vm.box = "andytson/aws-dummy"
+
+	unless Vagrant.has_plugin?('vagrant-omnibus')
+		system('vagrant plugin install vagrant-omnibus') || exit!
+		exit system('vagrant', *ARGV)
+	end
+	unless Vagrant.has_plugin?('vagrant-aws')
+		system('vagrant plugin install vagrant-aws') || exit!
+		exit system('vagrant', *ARGV)
+	end
+	unless Vagrant.has_plugin?('dotenv')
+		system('vagrant plugin install dotenv') || exit!
+		exit system('vagrant', *ARGV)
+	end
+
+	config.omnibus.chef_version = :latest
+
+	config.ssh.forward_x11 = true
+
+	config.vm.provider :aws do |aws|
+		aws.access_key_id     = ENV['AWS_ACCESS_KEY_ID']
+		aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+		aws.keypair_name = "aws-oregon"
+		aws.ssh_username = "ec2-user"
+		aws.ssh_private_key_path = "~/.ssh/aws-oregon.pem"
+		aws.instance_type = "t1.micro"
+		aws.region = "us-west-2"
+		aws.ami = "ami-a3af2ba2"
+		aws.security_groups = [ 'webserver' ]
+	end
+
+	config.vm.provision "chef_solo" do |chef|
+		chef.cookbooks_path = "../../chef/site-cookbooks/"
+		chef.environments_path = "../../chef/environments/"
+		chef.environment = "vagrant"
+		chef.run_list = %w[
+			recipe[linux::localedef_for_UTF-8]
+			recipe[linux::sudoers_for_path]
+			recipe[security-updates::bash-shellshock]
+			recipe[linux-desktop::install_Xfce-Desktop_for_CentOS7+]
+			recipe[linux-desktop::install_TigerVnc_for_CentOS7+]
+			recipe[linux-desktop::install_Firefox]
+		]
+	end
+
+	# for bug of Vagrant 1.7.2
+	unless Vagrant.has_plugin?('vagrant-triggers')
+		# Attempt to install ourself.
+		# Bail out on failure so we don't get stuck in an infinite loop.
+		system('vagrant plugin install vagrant-triggers') || exit!
+
+		# Relaunch Vagrant so the new plugin(s) are detected.
+		# Exit with the same status code.
+		exit system('vagrant', *ARGV)
+	end
+
+	config.trigger.before [:reload, :up], stdout: true do
+		my_SYNCED_FOLDER = ".vagrant/machines/default/virtualbox/synced_folders"
+		info "Trying to delete folder #{my_SYNCED_FOLDER}"
+		begin
+			File.delete(my_SYNCED_FOLDER)
+		rescue StandardError => e
+			warn "Could not delete folder #{my_SYNCED_FOLDER}."
+			warn e.inspect
+		end
+	end
+end
