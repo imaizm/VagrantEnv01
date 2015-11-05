@@ -1,47 +1,20 @@
 #
-# Cookbook Name:: linux
-# Recipe:: install_gnome_desktop
+# Cookbook Name:: linux-desktop
+# Recipe:: install_TigerVnc_for_CentOS7+
 #
-
-bash 'yum groupinstall Desktop' do
-	code <<-EOS
-		yum install -y epel-release
-		yum --enablerepo=epel groupinstall -y "Xfce"
-	EOS
-end
-
-directory "/home/vagrant/.vnc/" do
-	owner "vagrant"
-	group "vagrant"
+directory "/home/#{node['vnc']['user']}/.vnc/" do
+	owner node['vnc']['user']
+	group node['vnc']['user']
 	mode "0755"
 	action :create
 end
 
 template "xstartup" do
-	path "/home/vagrant/.vnc/xstartup"
-	owner "vagrant"
-	group "vagrant"
+	path "/home/#{node['vnc']['user']}/.vnc/xstartup"
+	owner node['vnc']['user']
+	group node['vnc']['user']
 	mode "0755"
 	source "xstartup_xfce4.erb"
-end
-
-# yum install -y epel-release
-# yum --enablerepo=epel groupinstall -y "MATE Desktop"
-# yum --enablerepo=epel groupinstall -y "Xfce"
-
-# .Xclients
-# echo "startxfce4" > ~/.Xclients
-# echo "mate-session" > ~/.Xclients
-
-%w[
-	pixman
-	pixman-devel
-	libXfont
-	vlgothic-fonts
-].each do |pkg|
-	package "#{pkg}" do
-		action :install
-	end
 end
 
 package "tigervnc-server" do
@@ -64,7 +37,7 @@ template "vncserver@:1.service" do
 	mode "0644"
 	source "vncserver@.service_default.erb"
 	variables(
-		:user => "vagrant"
+		:user => node['vnc']['user']
 	)
 	notifies :run, "bash[reload tigervnc-server]", :immediately
 end
@@ -80,9 +53,10 @@ end
 
 bash "set vncpasswd" do
 	code <<-EOS
-		echo "vagrant" > /tmp/vncpasswd-file
-		echo "vagrant" >> /tmp/vncpasswd-file
-		su -l -c "vncpasswd < /tmp/vncpasswd-file > /dev/null 2> /dev/null" vagrant
+		echo #{node['vnc']['password']} > /tmp/vncpasswd-file
+		echo #{node['vnc']['password']} >> /tmp/vncpasswd-file
+		su -l -c "vncpasswd < /tmp/vncpasswd-file > /dev/null 2> /dev/null" #{node['vnc']['user']}
+		rm /tmp/vncpasswd-file
 	EOS
 	action :nothing
 	notifies :run, "bash[start tigervnc-server]", :immediately

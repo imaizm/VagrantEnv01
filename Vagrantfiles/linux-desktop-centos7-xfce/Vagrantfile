@@ -45,7 +45,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[linux::localedef_for_UTF-8]
 			recipe[linux::sudoers_for_path]
 			recipe[security-updates::bash-shellshock]
-			recipe[linux::install_gnome_desktop_for_centos]
+			recipe[linux-desktop::install_Xfce-Desktop_for_CentOS7+]
+			recipe[linux-desktop::install_TigerVnc_for_CentOS7+]
+			recipe[linux-desktop::install_Firefox]
 		]
 	end
 
