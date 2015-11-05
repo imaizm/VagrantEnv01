@@ -2,16 +2,27 @@
 # Cookbook Name:: linux
 # Recipe:: install_gnome_desktop
 #
-bash 'yum update' do
-	code <<-EOS
-		yum update -y
-	EOS
-end
 
 bash 'yum groupinstall Desktop' do
 	code <<-EOS
-		yum groupinstall -y "Desktop"
+		yum install -y epel-release
+		yum --enablerepo=epel groupinstall -y "Xfce"
 	EOS
+end
+
+directory "/home/vagrant/.vnc/" do
+	owner "vagrant"
+	group "vagrant"
+	mode "0755"
+	action :create
+end
+
+template "xstartup" do
+	path "/home/vagrant/.vnc/xstartup"
+	owner "vagrant"
+	group "vagrant"
+	mode "0755"
+	source "xstartup_xfce4.erb"
 end
 
 # yum install -y epel-release
@@ -26,6 +37,7 @@ end
 	pixman
 	pixman-devel
 	libXfont
+	vlgothic-fonts
 ].each do |pkg|
 	package "#{pkg}" do
 		action :install
