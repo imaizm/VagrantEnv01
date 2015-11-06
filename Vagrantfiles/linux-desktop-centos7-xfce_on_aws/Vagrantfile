@@ -5,6 +5,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	config.vm.box = "andytson/aws-dummy"
 
+=begin
 	unless Vagrant.has_plugin?('vagrant-omnibus')
 		system('vagrant plugin install vagrant-omnibus') || exit!
 		exit system('vagrant', *ARGV)
@@ -21,19 +22,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.omnibus.chef_version = :latest
 
 	config.ssh.forward_x11 = true
+=end
 
-	config.vm.provider :aws do |aws|
-		aws.access_key_id     = ENV['AWS_ACCESS_KEY_ID']
-		aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
-		aws.keypair_name = "aws-oregon"
-		aws.ssh_username = "ec2-user"
-		aws.ssh_private_key_path = "~/.ssh/aws-oregon.pem"
-		aws.instance_type = "t1.micro"
-		aws.region = "us-west-2"
-		aws.ami = "ami-a3af2ba2"
-		aws.security_groups = [ 'webserver' ]
+	config.vm.provider :aws do |aws, override|
+		aws.tags                      = { 'Name' => 'LinuxDesktopTest' }
+		aws.region                    = "us-west-2"
+		aws.ami                       = "ami-d440a6e7"
+		aws.instance_type             = "t2.micro"
+	#	aws.security_groups           = ENV['']
+		aws.subnet_id                 = ENV['AWS_SUBNET_ID']
+		aws.access_key_id             = ENV['AWS_ACCESS_KEY_ID']
+		aws.secret_access_key         = ENV['AWS_ACCESS_KEY_SECRET']
+		aws.keypair_name              = ENV['AWS_KEYPAIR_NAME']
+		override.ssh.username         = "centos"
+		override.ssh.private_key_path = ENV['AWS_KEYPAIR_PEM_PATH']
 	end
-
+=begin
 	config.vm.provision "chef_solo" do |chef|
 		chef.cookbooks_path = "../../chef/site-cookbooks/"
 		chef.environments_path = "../../chef/environments/"
@@ -69,4 +73,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			warn e.inspect
 		end
 	end
+=end
+
 end
