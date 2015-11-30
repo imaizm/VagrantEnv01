@@ -39,6 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			recipe[security-updates::bash-shellshock]
 			recipe[centos::add_yum_repository_epel]
 			recipe[supervisor]
+			recipe[consul]
 		]
 	end
 

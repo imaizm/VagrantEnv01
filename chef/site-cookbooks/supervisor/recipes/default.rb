@@ -11,7 +11,7 @@ template "supervisord.conf" do
 	source "supervisord.conf_default.erb"
 end
 
-service "supervisord" do
-	supports :status => true, :restart => true, :reload => true
-	action [ :enable, :start ]
-end
+#service "supervisord" do
+#	supports :status => true, :restart => true, :reload => true
+#	action [ :enable, :start ]
+#end
