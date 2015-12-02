@@ -14,12 +14,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	config.vm.synced_folder "../../src", "/var/www/src", :create => true, :owner => 'vagrant', :group => 'vagrant', :mount_options => ['dmode=777', 'fmode=666']
 
-=begin
-	unless Vagrant.has_plugin?('vagrant-chef-zero')
-		system('vagrant plugin install vagrant-chef-zero') || exit!
-		exit system('vagrant', *ARGV)
-	end
-=end
 	unless Vagrant.has_plugin?('vagrant-omnibus')
 		system('vagrant plugin install vagrant-omnibus') || exit!
 		exit system('vagrant', *ARGV)
@@ -43,25 +37,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		]
 	end
 
-	# for bug of Vagrant 1.7.2
-	unless Vagrant.has_plugin?('vagrant-triggers')
-		# Attempt to install ourself.
-		# Bail out on failure so we don't get stuck in an infinite loop.
-		system('vagrant plugin install vagrant-triggers') || exit!
-
-		# Relaunch Vagrant so the new plugin(s) are detected.
-		# Exit with the same status code.
-		exit system('vagrant', *ARGV)
-	end
-
-	config.trigger.before [:reload, :up], stdout: true do
-		my_SYNCED_FOLDER = ".vagrant/machines/default/virtualbox/synced_folders"
-		info "Trying to delete folder #{my_SYNCED_FOLDER}"
-		begin
-			File.delete(my_SYNCED_FOLDER)
-		rescue StandardError => e
-			warn "Could not delete folder #{my_SYNCED_FOLDER}."
-			warn e.inspect
-		end
-	end
 end

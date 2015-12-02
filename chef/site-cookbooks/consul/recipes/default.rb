@@ -24,8 +24,5 @@ template "consul.ini" do
 	group "root"
 	mode "0444"
 	source "supervisor_consul.ini.erb"
-end
-
-service "supervisord" do
-	action :reload
+	notifies :restart, "service[supervisord]", :immediately
 end
